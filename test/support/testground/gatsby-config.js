@@ -1,1 +1,0 @@
-gatsby-config-with-plugin.js

@@ -1,3 +1,13 @@
+// 6-5-2021
+// Modified orginal gatsby-plugin-typesense to support multiple collections
+// Doing so by name in the schema and by addition of the schema name to data-typesense-field
+// Using this plugin version (multi) requires using : 
+//
+// data-typesense-field-SCHEMA_NAME
+// 
+// setting up multiple collection schema can be done by configuring multiple schemas in the gatsby config file.
+// - Jordan Ramirez
+
 const fs = require("fs").promises
 const cheerio = require("cheerio")
 const TypesenseClient = require("typesense").Client
@@ -33,9 +43,16 @@ async function indexContentInTypesense({
 }) {
   const $ = cheerio.load(fileContents)
 
+  var collectionNamePure = newCollectionSchema.name.split("_");
+  collectionNamePure.pop();
+  collectionNamePure = collectionNamePure.join("_");
+  //reporter.warn("[Typesense] collection schema? : " + collectionNamePure);
+
+  //Convert TYPESENSE_ATTRIBUTE_NAME to TYPESENSE_ATTRIBUTE_NAME + collectionName
+
   let typesenseDocument = {}
-  $(`[${TYPESENSE_ATTRIBUTE_NAME}]`).each((index, element) => {
-    const attributeName = $(element).attr(TYPESENSE_ATTRIBUTE_NAME)
+  $(`[${TYPESENSE_ATTRIBUTE_NAME + "-" + collectionNamePure}]`).each((index, element) => {
+    const attributeName = $(element).attr(TYPESENSE_ATTRIBUTE_NAME + "-" + collectionNamePure)
     const attributeValue = $(element).text()
     const fieldDefinition = newCollectionSchema.fields.find(
       f => f.name === attributeName
@@ -57,7 +74,7 @@ async function indexContentInTypesense({
 
   if (utils.isObjectEmpty(typesenseDocument)) {
     reporter.warn(
-      `[Typesense] No HTMLelements had the ${TYPESENSE_ATTRIBUTE_NAME} attribute, skipping page`
+      `[Typesense] No HTMLelements had the ${TYPESENSE_ATTRIBUTE_NAME + "-" + collectionNamePure} attribute, skipping page`
     )
     return Promise.resolve()
   }

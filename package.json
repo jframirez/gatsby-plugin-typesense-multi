@@ -1,17 +1,15 @@
 {
-  "name": "gatsby-plugin-typesense",
-  "version": "0.3.0",
-  "description": "A gatsby plugin to push site content to a Typesense Search cluster",
-  "homepage": "https://github.com/typesense/gatsby-plugin-typesense",
+  "name": "gatsby-plugin-typesense-multi",
+  "version": "0.0.1",
+  "description": "A gatsby plugin to push site content to a Typesense Search cluster (slightly modified to support multiple collections (models and data))",
+  "homepage": "https://github.com/jframirez/gatsby-plugin-typesense-multi",
   "repository": {
     "type": "git",
-    "url": "https://github.com/typesense/gatsby-plugin-typesense"
+    "url": "https://github.com/jframirez/gatsby-plugin-typesense-multi"
   },
   "license": "Apache-2.0",
   "author": {
-    "name": "Typesense, Inc.",
-    "email": "contact@typesense.org",
-    "url": "https://typesense.org"
+    "name": "Jordan Ramirez"
   },
   "main": "index.js",
   "files": [
@@ -22,10 +20,7 @@
     "node": ">=0.11.0"
   },
   "scripts": {
-    "testground:build": "npm link && cd test/support/testground && npm install && npm link gatsby-plugin-typesense && npm run config:enablePlugins && gatsby build",
-    "testground:build:withoutPlugins": "npm link && cd test/support/testground && npm install && npm run config:disablePlugins && gatsby build && npm run config:enablePlugins",
-    "typesenseServer": "docker run -i -p 8108:8108 -v/tmp/typesense-server-data/:/data typesense/typesense:0.16.0 --data-dir /data --api-key=xyz --listen-port 8108 --enable-cors",
-    "test": "npm run testground:build:withoutPlugins && jest"
+    "test": ""
   },
   "keywords": [
     "gatsby",
